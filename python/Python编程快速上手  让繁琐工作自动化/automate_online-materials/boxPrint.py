@@ -17,4 +17,3 @@ for sym, w, h in (('*', 4, 4), ('O', 20, 5), ('x', 1, 3), ('ZZ', 3, 3)):
         boxPrint(sym, w, h)
     except Exception as err:
         print('An exception happened: ' + str(err))
-

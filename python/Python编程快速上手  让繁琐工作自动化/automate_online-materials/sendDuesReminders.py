@@ -1,22 +1,28 @@
 #! python3
 # sendDuesReminders.py - Sends emails based on their status in spreadsheet.
 
-import openpyxl, smtplib, sys
+import openpyxl
+import smtplib
+import sys
 
 # Open the spreadsheet and get the latest dues status.
 wb = openpyxl.load_workbook('duesRecords.xlsx')
 sheet = wb.get_sheet_by_name('Sheet1')
 
-lastCol = sheet.get_highest_column()
-latestMonth = sheet.cell(row=1, column=lastCol).value
+lastCol = sheet.max_column
+
+print(openpyxl.utils.get_column_letter(lastCol),lastCol)
+print(type(openpyxl.utils.get_column_letter(lastCol)),lastCol)
+exit()
+latestMonth = sheet.cell(row = 1, column = lastCol).value
 
 unpaidMembers = {}
 # Check each member's payment status
-for r in range(2, sheet.get_highest_row() + 1):
-    payment = sheet.cell(row=r, column=lastCol).value
+for r in range(2, sheet.max_row + 1):
+    payment = sheet.cell(row = r, column = lastCol).value
     if payment != 'paid':
-        name = sheet.cell(row=r, column=1).value
-        email = sheet.cell(row=r, column=2).value
+        name = sheet.cell(row = r, column = 1).value
+        email = sheet.cell(row = r, column = 2).value
         unpaidMembers[name] = email
 
 # Log in to email account.
